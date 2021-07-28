@@ -1,36 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import FileBase from 'react-file-base64';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import useStyles from './styles';
-import { useDispatch } from 'react-redux';
 import { createPost, updatePost } from '../../actions/posts';
 
 const Form = ({ currentId, setCurrentId}) => {
     const [postData, setPostData] = useState({ creator: '', title: '', message:'', tags:'', selectedFile:'' });
-    const post = useSelector( (state) => currentId ? state.posts.find((p) => p._id === currentId): null);
+    const post = useSelector( (state) => currentId ? state.posts.find((message) => message._id === currentId): null);
 
     const classes = useStyles();
     const dispatch = useDispatch();
     
     useEffect(() => {
         if(post) setPostData(post);
-    }, [post])
+    }, [post]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if(currentId) {
             dispatch(updatePost(currentId, postData));
         } else {
-            dispatch(createPost(postData));
-
+            dispatch(createPost(postData)); 
         }
-
-    }
+        clear();
+    };
 
     const clear = () =>  {
-
-    }
+        setCurrentId(null);
+        setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: ''});
+    };
 
     return (
         <Paper className={classes.paper}>
@@ -45,6 +44,6 @@ const Form = ({ currentId, setCurrentId}) => {
                 <Button variant="contained" color="inherit" size="small" onClick={clear} fullWidth>Clear</Button>
             </form> 
         </Paper> );
-}
+};
 
 export default Form;
