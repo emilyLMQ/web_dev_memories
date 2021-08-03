@@ -18,8 +18,8 @@ app.use('/posts', postRoutes);
 // const CONNECTION_URL = 'mongodb+srv://new_user_111:new_user_111new_user_111@cluster0.0yb1m.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
 app.get('/', (req, res) => {
-    res.send('Hello to memories API')
-})
+    res.send('Hello to memories API');
+});
 
 const PORT = process.env.PORT || 5000;
 
